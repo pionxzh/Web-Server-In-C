@@ -76,10 +76,10 @@ int main(int argc, char * argv[]) {
                     }
 
                     FD_SET(fd_socket, &active_fd_set);
-                    printf("A new client appeared!\n");
+                    printf("> A new client appeared!\n");
                 } else {
-                    memset(buf, 0, 2048);
-                    read(i, buf, 1047);
+                    memset(buf, 0, 1024);
+                    read(i, buf, 1023);
 
                     printf("%s\n", buf);
 
@@ -91,6 +91,7 @@ int main(int argc, char * argv[]) {
 
 					//handle the request of image
                     if (!strncmp(buf, "GET /demo.jpg", 13)) {
+                        printf("sending image...\n");
                         fd_img = open("demo.jpg", O_RDONLY);
                         sendfile(i, fd_img, NULL, 500000);
                         close(fd_img);

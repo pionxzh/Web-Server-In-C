@@ -20,7 +20,6 @@ char html[] =
 "Content-Type: text/html;charset=UTF-8\r\n\r\n"
 "<!DOCTYPE html>\r\n"
 "<html><head><title>Pionxzh</title></head>\r\n"
-"<style>body {background-color: #FFFF00 }</style>\r\n"
 "<body><center><div style='margin-top: 20\%;font-size: 80px;'>Demo!</div><br>\r\n"
 "<img src=\"demo.jpg\"></center></body></html>\r\n";
 
@@ -69,13 +68,13 @@ int main(int argc, char * argv[]) {
             continue;
         }
 
-        printf("A new client appeared!\n");
+        printf("> A new client appeared!\n");
 
         if (!fork()) {
             /* child proccess */
             close(fd_server);
-            memset(buf, 0, 2048);
-            read(fd_client, buf, 1047);
+            memset(buf, 0, 1024);
+            read(fd_client, buf, 1023);
 
             printf("%s\n", buf);
 
@@ -87,6 +86,7 @@ int main(int argc, char * argv[]) {
 
 			//handle the request of image
             if (!strncmp(buf, "GET /demo.jpg", 13)) {
+                printf("sending image...\n");
                 fd_img = open("demo.jpg", O_RDONLY);
                 sendfile(fd_client, fd_img, NULL, 500000);
                 close(fd_img);
@@ -95,7 +95,7 @@ int main(int argc, char * argv[]) {
 			}
 
             close(fd_client);
-            printf("Closing ...\n");
+            printf("Closing ...\n\n\n");
             exit(0);
         }
     }
