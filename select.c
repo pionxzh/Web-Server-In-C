@@ -10,7 +10,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/sendfile.h>
 
 #define PORT 5566
 #define BUF_SIZE 8096
