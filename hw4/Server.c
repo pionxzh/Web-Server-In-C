@@ -246,7 +246,7 @@ void * clientHandler(Client * client) {
             return NULL;
         } else if (strcmp(msgBuffer, "/list") == 0) //list all users in the chat room
         {
-            strcpy(sendMsg, "≡");
+            strcpy(sendMsg, "≡\n");
             for (int i = 0; i < MAX_BUFFER; i++)
                 if (room->clientSockets[i]) {
                     sprintf(tempMsg, "%d. %s\n", i+1, room->userNames[i]);
@@ -273,7 +273,7 @@ void * clientHandler(Client * client) {
                 }
             }
         } else if (strcmp(ptr, "/sendFile") == 0) {
-            ptr = strtok(NULL, " "); // ptr is specified client's username
+            ptr = strtok(NULL, " "); // ptr is specified client's user name
             int i;
             for (i = 0; i < MAX_BUFFER; i++) {
                 if (strcmp(ptr, room->userNames[i]) == 0) {
@@ -286,13 +286,13 @@ void * clientHandler(Client * client) {
                         int listenFileFd;
 
                         listenFileFd = socket(AF_INET, SOCK_STREAM, 0);
-                        bzero( &servFileAddr, sizeof(servFileAddr));
+                        bzero(&servFileAddr, sizeof(servFileAddr));
 
                         servFileAddr.sin_family = AF_INET;
                         servFileAddr.sin_addr.s_addr = htonl(INADDR_ANY);
                         servFileAddr.sin_port = htons(8688);
 
-                        bind(listenFileFd, (struct sockaddr * ) &servFileAddr, sizeof(servFileAddr));
+                        bind(listenFileFd, (struct sockaddr *) &servFileAddr, sizeof(servFileAddr));
                         listen(listenFileFd, 1);
 
 
@@ -302,7 +302,7 @@ void * clientHandler(Client * client) {
                         ptr = strtok(NULL, " "); // ptr is file name
                         strcpy(msgBuffer, "Server_");
                         strcat(msgBuffer, ptr);
-                        FILE * fp = fopen(msgBuffer, "wb");
+                        FILE *fp = fopen(msgBuffer, "wb");
                         int nbytes;
 
                         while (1) {
